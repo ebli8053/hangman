@@ -38,35 +38,33 @@ def guess_letter(word):
 
 def correct_letter(word_list):
     index = 0
-    original_word = ''.join(word_list)
+    original_word = word_list
     guessed_word = ['_'] * len(original_word)
 
     while len(word_list) > 0 and index < 6:
         guess = guess_letter(original_word)
         if guess[0]:
             correct_letters.append(guess[1])
-            
             for x in range(len(original_word)):
                 if original_word[x] == guess[1]:
                     guessed_word[x] = guess[1]            
             print(hangman(index))
             print(f"Incorrect letters: {add_incorrect_letters()}\n")
             print(f"Correct letters: {' '.join(guessed_word)}\n")
+            
+            if "_" not in guessed_word:
+                winner()
+                return
         else:
             incorrect_letters.append(guess[1])
             index += 1
             print(hangman(index))
             print(f"Incorrect letters: {add_incorrect_letters()}\n")
             print(f"Correct letters: {' '.join(guessed_word)}\n")
-    if index == 6:
-        return loser()
-    else:
-        return winner()
+    loser()
     
 def add_incorrect_letters():
-    list_of_incorrect_letters = []
-    list_of_incorrect_letters.extend(incorrect_letters)
-    return ", ".join(list_of_incorrect_letters)
+    return ", ".join(incorrect_letters)
 
 def hangman(n):
     hangman_0 = (f"----------------\n|   /          |\n|  /           |\n| /\n|/\n|\n|\n|\n|\n|\n|\n|\n|\n")
