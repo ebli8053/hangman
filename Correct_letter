@@ -1,0 +1,28 @@
+def correct_letter(word_list):
+    index = 0
+    guessed_word = ["_" for _ in word_list]
+    while len(word_list) > 0 and index < 6:
+        guess = guess_letter(word_list)
+        if guess[0]:
+            correct_letters.append(guess[1])
+            for i in range(len(word_list)):
+                if word_list[i] == guess[1]:
+                    word_list[i] = guess[1]
+            print(hangman(index))
+            print(f"Incorrect letters: {add_incorrect_letters()}\n")
+            print(f"Correct letters: {' '.join(guessed_word)}\n")
+        else:
+            incorrect_letters.append(guess[1])
+            index += 1
+            print(hangman(index))
+            print(f"Incorrect letters: {add_incorrect_letters()}\n")
+            print(f"Correct letters: {' '.join(guessed_word)}\n")
+    if index == 6:
+        return loser()
+    else:
+        return winner()
+    
+def add_incorrect_letters():
+    list_of_incorrect_letters = []
+    list_of_incorrect_letters.extend(incorrect_letters)
+    return ", ".join(list_of_incorrect_letters)
