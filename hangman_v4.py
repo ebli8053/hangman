@@ -2,15 +2,31 @@ import random
 
 words_list = ["CAT", "MOON", "HAPPY", "PYTHON", "LADYBUG", "DINOSAUR", "CHOCOLATE", "PROGRAMMER"]
 incorrect_letters = []
+correct_letters = []
+
+def game_options(title, prompt, options):
+    while True:
+        print(title)
+        print()
+        for x in options:
+            print(f"{x}) {options[x]}")
+        print()
+        s = input(f"{prompt} ")
+        print()
+        if s in options:
+            return s
+        else:
+            print(f"invalid option: {s}. Please try again!")
 
 def random_word():
     n = random.randint(0, len(words_list) - 1)
-    rand_word_split = list(words_list[n])
+    rand_word_split = list(words_list[n]) 
     print(rand_word_split)
     correct_letter(rand_word_split)
 
 def choose_word():
     word = input("Enter your word: ").upper()
+ #kontrollera att det är en bokstav
     word_split = list(word)
     correct_letter(word_split)
 
@@ -22,19 +38,35 @@ def guess_letter(word):
 
 def correct_letter(word_list):
     index = 0
+    original_word = ''.join(word_list)
+    guessed_word = ['_'] * len(original_word)
+
     while len(word_list) > 0 and index < 6:
-        guess = guess_letter(word_list)
-        if guess[0] == True:
-            word_list.remove(guess[1])
+        guess = guess_letter(original_word)
+        if guess[0]:
+            correct_letters.append(guess[1])
+            
+            for x in range(len(original_word)):
+                if original_word[x] == guess[1]:
+                    guessed_word[x] = guess[1]            
             print(hangman(index))
+            print(f"Incorrect letters: {add_incorrect_letters()}\n")
+            print(f"Correct letters: {' '.join(guessed_word)}\n")
         else:
             incorrect_letters.append(guess[1])
             index += 1
             print(hangman(index))
+            print(f"Incorrect letters: {add_incorrect_letters()}\n")
+            print(f"Correct letters: {' '.join(guessed_word)}\n")
     if index == 6:
         return loser()
     else:
         return winner()
+    
+def add_incorrect_letters():
+    list_of_incorrect_letters = []
+    list_of_incorrect_letters.extend(incorrect_letters)
+    return ", ".join(list_of_incorrect_letters)
 
 def hangman(n):
     hangman_0 = (f"----------------\n|   /          |\n|  /           |\n| /\n|/\n|\n|\n|\n|\n|\n|\n|\n|\n")
@@ -72,6 +104,6 @@ def loser():
     print("         | x x |")
     print("         |  -  |")
     print("         |_____|")
-        
+    
 
 random_word()
