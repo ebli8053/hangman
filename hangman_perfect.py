@@ -67,6 +67,7 @@ def correct_letter(word_list):
             print(f"Incorrect letters: {add_incorrect_letters()}\n")
             print(f"Correct letters: {' '.join(guessed_word)}\n")
     loser()
+    print(f"\nThe word was {''.join(word_list)}")
     
 def add_incorrect_letters():
     return ", ".join(incorrect_letters)
