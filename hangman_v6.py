@@ -36,15 +36,99 @@ def correct_letter(word_list):
             while guess[1] in word_list:
                 word_list.remove(guess[1])
             print(hangman(index))
+            print(f"Incorrect letters: {add_incorrect_letters()}")
+            print(f"Correct letters: ")
         else:
             incorrect_letters.append(guess[1])
             index += 1
             print(hangman(index))
+            print(f"Incorrect letters: {add_incorrect_letters()}")
+            print(f"Correct letters: ")
     if index == 5:
         print(hangman(6))
         return loser()
     else:
         return winner()
+
+def add_incorrect_letters():
+    list_of_incorrect_letters = []
+    list_of_incorrect_letters.extend(incorrect_letters)
+    return ", ".join(list_of_incorrect_letters)
+
+def hangman(n):
+    hangman_0 = (f"----------------\n|   /          |\n|  /           |\n| /\n|/\n|\n|\n|\n|\n|\n|\n|\n|\n")
+    hangman_1 = ("----------------\n|   /          |\n|  /           |\n| /           ---\n|/           |   |\n|             ---\n|\n|\n|\n|\n|\n|\n|\n")
+    hangman_2 = ("----------------\n|   /          |\n|  /           |\n| /           ---\n|/           |   |\n|             ---\n|              |\n|              |\n|              |\n|              |\n|\n|\n|\n")
+    hangman_3 = ("----------------\n|   /          |\n|  /           |\n| /           ---\n|/           |   |\n|             ---\n|              |\n|             /|\n|            / |\n|           /  |\n|\n|\n|\n")
+    hangman_4 = ("----------------\n|   /          |\n|  /           |\n| /           ---\n|/           |   |\n|             ---\n|              |\n|             /|\ \n|            / | \ \n|           /  |  \ \n|\n|\n|\n")
+    hangman_5 = ("----------------\n|   /          |\n|  /           |\n| /           ---\n|/           |   |\n|             ---\n|              |\n|             /|\ \n|            / | \ \n|           /  |  \ \n|             /\n|            /\n|           /\n") 
+    hangman_6 = ("----------------\n|   /          |\n|  /           |\n| /           ---\n|/           |x x|\n|             ---\n|              |\n|             /|\ \n|            / | \ \n|           /  |  \ \n|             / \ \n|            /   \ \n|           /     \ \n")
+    
+    hangman_list = [hangman_0, hangman_1, hangman_2, hangman_3, hangman_4, hangman_5, hangman_6]
+    return(hangman_list[n])
+
+def winner():
+    print("                             ___  __")
+    print("|   |   | |   |   |   |   | |    |  |")
+    print(" | | | |  |  | | |   | | |  |--  |-|")
+    print("  |   |   | |   |   |   |   |___ |  |")
+    print("              _____ ")
+    print("             | O O |")
+    print("             |  U  |")
+    print("             |_____|")
+
+def loser():
+    print(" ___   __             ___ ")
+    print("|     |  |   |   |   |")
+    print("|---| |--|  | | | |  |--")
+    print("|___| |  | |   |   | |___ ")
+    print("   ___         ___  __")
+    print("  |   | |   | |    |  |")
+    print("  |   |  | |  |--  |-|")
+    print("  |___|   |   |___ |  |")
+    print("          _____")
+    print("         | x x |")
+    print("         |  -  |")
+    print("         |_____|")
+
+def game_options(title, prompt, options):
+    while True:
+        print(title)
+        print()
+        for x in options:
+            print(f"{x}) {options[x]}")
+        print()
+        s = input(f"{prompt} ")
+        print()
+        if s in options:
+            return s
+        else:
+            print(f"invalid option: {s}. Please try again!")
+            
+
+def main():
+    opt1 = game_options("Select an action", "Action: ", options1)
+    if opt1 == "m":
+        print("Multiplayer selected.\n")
+        choose_word()
+    else:
+        print("Single player selected.\n")
+        opt2 = game_options("Select number of rounds", "Rounds: ", options2)
+        print(f"You selected {options2[opt2]} round(s)")
+        if options2[opt2] == "one":
+            rounds = 1
+        elif options2[opt2] == "three":
+            rounds = 3
+        else:
+            rounds = 5
+        
+        turn = 1
+        while turn <= rounds:
+            global incorrect_letters
+            incorrect_letters.clear()
+            print(f"Round {turn}/{rounds}")
+            random_word()
+            turn += 1
 
 def hangman(n):
     hangman_0 = (f"----------------\n|   /          |\n|  /           |\n| /\n|/\n|\n|\n|\n|\n|\n|\n|\n|\n")
